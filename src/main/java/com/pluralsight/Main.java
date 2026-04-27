@@ -123,16 +123,17 @@ public class Main {
         BufferedWriter bufferedWriter = null;
 
         try {
-            fileWriter = new FileWriter(TRANSACTIONS_FILE_NAME);
+            fileWriter = new FileWriter(TRANSACTIONS_FILE_NAME, true); //true appends the file instead of replacing it
             bufferedWriter = new BufferedWriter(fileWriter);
 
-            String line = "%t|%t|%s|%s|%.2f";
-            String finalLine = String.format(line,LocalDate.now(),LocalTime.now(),description,vendor,depositAmount);
-            bufferedWriter.write(finalLine);
+            String finalLine = String.format("%s|%s|%s|%s|%.2f",
+                    LocalDate.now(),LocalTime.now(),description,vendor,depositAmount);
+            bufferedWriter.append(finalLine);
+            bufferedWriter.newLine();
             bufferedWriter.close();
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.err.println("Something went wrong.");;
         }
     }
 
