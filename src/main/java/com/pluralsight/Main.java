@@ -1,11 +1,7 @@
 package com.pluralsight;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -13,6 +9,10 @@ import java.util.Scanner;
 public class Main {
     public static final String TRANSACTIONS_FILE_NAME = "src/main/resources/transactions.csv";
     static Scanner scanner = new Scanner(System.in);
+    static String BOLD = "\u001B[1m";
+    static String BLUE = "\u001B[94m";
+    static String PURPLE = "\u001B[95m";
+    static String RESET = "\u001B[0m";
 
     static ArrayList <Transactions> transactions = loadTransactions(TRANSACTIONS_FILE_NAME);
 
@@ -24,22 +24,27 @@ public class Main {
     }
 
     private static void mainMenu() {
-        String homeScreen = """
-                
+
+        String mainHeader = """
+                ================================================
                         Welcome to Bank of Thapa!
-                ---------------------------------------------
+                ================================================
+                """;
+        String mainMenu ="""
                 
                     What would you like to do today?
                 
+                ------------------------------------------------
                 *) Add Deposit          (Press D)
                 *) Make Payment (Debit) (Press P)
                 *) Ledger               (Press L)
                 *) Exit                 (Press X to Exit)
-                """;
+                ------------------------------------------------
+                Enter:   """;
         boolean running = true;
 
         do {
-            System.out.println(homeScreen);
+            System.out.print(BOLD + BLUE + mainHeader + RESET + PURPLE + mainMenu + RESET);
             String userInput = scanner.nextLine();
 
             switch (userInput) {
@@ -56,7 +61,8 @@ public class Main {
                     running = false;
                     break;
                 default:
-                    System.out.println("Are you trying to hack the bank?");
+                    System.err.println("Are you trying to hack the bank?");
+                    break;
             }
         } while (running);
     }
@@ -103,16 +109,40 @@ public class Main {
         return new Transactions(date,time,description,vendor,amount);
     };
 
+    private static void addDeposit() {
+        System.out.print(PURPLE+ "Enter the deposit amount: $" + RESET);
+        double depositAmount = Double.parseDouble(scanner.nextLine());
 
+        System.out.print(PURPLE + "Enter the vendor name: " + RESET);
+        String vendor = scanner.nextLine();
 
+        System.out.print(PURPLE + "Enter the description: " + RESET);
+        String description = scanner.nextLine();
+
+        FileWriter fileWriter = null;
+        BufferedWriter bufferedWriter = null;
+
+        try {
+            fileWriter = new FileWriter(TRANSACTIONS_FILE_NAME);
+            bufferedWriter = new BufferedWriter(fileWriter);
+
+            String line = "%t|%t|%s|%s|%.2f";
+            String finalLine = String.format(line,LocalDate.now(),LocalTime.now(),description,vendor,depositAmount);
+            bufferedWriter.write(finalLine);
+            bufferedWriter.close();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     private static void ledger() {
+        String ledgerMenu = """
+                
+                """;
     }
 
     private static void makePayment() {
 
-    }
-
-    private static void addDeposit() {
     }
 }
