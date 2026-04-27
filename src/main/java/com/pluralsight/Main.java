@@ -1,12 +1,13 @@
 package com.pluralsight;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
+    public static final String TRANSACTIONS_FILE_NAME = "src/main/resources/transactions.csv";
     static Scanner scanner = new Scanner(System.in);
 
+    static ArrayList <String> transactions = loadTransactions(TRANSACTIONS_FILE_NAME);
 
     public static void main(String[] args) {
         mainMenu();
