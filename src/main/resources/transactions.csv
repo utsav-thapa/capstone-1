@@ -1,0 +1,85 @@
+date|time|description|vendor|amount
+2026-04-12|17:30:45|Tax refund|IRS|420.17
+2025-03-15|16:45:21|Software subscription|Adobe|-29.99
+2026-01-15|09:30:00|Invoice 2001 paid|Acme Client|1750.00
+2025-11-11|09:09:09|Domain renewal|GoDaddy|-21.17
+2026-03-29|18:05:05|Cloud hosting|DigitalOcean|-56.14
+2025-01-12|13:42:10|Office supplies|Staples|-48.22
+2026-04-24|10:05:00|Emergency consulting payment|Acme Client|675.00
+2025-08-08|07:59:59|Equipment sale|Facebook Marketplace|150.00
+2026-03-10|16:20:00|Consulting payment|Northwind|2200.00
+2025-04-22|10:30:00|Website project deposit|Blue Ocean LLC|800.00
+2026-02-28|17:45:00|Book sale income|Amazon|84.32
+2025-12-31|23:50:00|Year-end adjustment|Bank|300.00
+2026-04-05|13:15:30|Invoice 2002 paid|Northwind|1450.00
+2025-06-14|15:05:09|Travel reimbursement|Acme Client|215.00
+2026-03-02|12:12:12|March rent|Landlord|-950.00
+2025-02-03|08:05:33|Consulting invoice paid|Acme Client|1250.00
+2026-04-22|15:55:10|Monitor stand|Amazon|-44.95
+2025-10-21|14:25:33|Quarterly bonus|Bank|500.00
+2026-01-03|10:10:10|January rent|Landlord|-950.00
+2025-05-02|11:11:11|Printer paper|Staples|-19.47
+2026-04-18|11:22:33|Client lunch|Panera|-28.60
+2025-07-19|19:22:45|Team lunch|Chipotle|-63.80
+2026-02-07|08:00:00|Laptop repair|Geek Squad|-140.00
+2025-01-05|09:15:00|Opening balance deposit|Bank|1000.00
+2026-03-18|07:40:55|Office chair|Amazon|-189.99
+2025-09-30|17:10:00|Electric bill|City Utilities|-122.18
+2026-04-09|08:48:00|Coffee beans for office|Costco|-37.45
+2025-02-10|18:20:00|Internet bill|Comcast|-89.99
+2026-04-01|09:00:00|April rent|Landlord|-950.00
+2025-03-01|12:00:00|Coffee with client|Starbucks|-14.75
+2025-04-30|14:22:10|Website maintenance fee|Blue Ocean LLC|300.00
+2026-02-14|19:10:45|Valentine client dinner|Olive Garden|-72.40
+2025-11-20|08:15:00|Office coffee restock|Costco|-54.22
+2026-03-25|11:45:33|Invoice 2003 paid|Acme Client|980.00
+2025-07-01|09:00:00|July rent|Landlord|-950.00
+2026-01-20|16:05:00|Plugin purchase|JetBrains|-19.99
+2025-12-10|10:10:10|Holiday bonus|Bank|750.00
+2026-02-01|09:00:00|February rent|Landlord|-950.00
+2025-06-30|17:30:00|Freelance payment|Northwind|1250.00
+2026-03-12|13:25:45|Keyboard replacement|Amazon|-89.99
+2025-08-15|12:00:00|Client lunch meeting|Panera|-34.75
+2026-04-11|08:45:00|Internet bill|Comcast|-92.15
+2025-09-05|18:30:00|Team dinner|Chipotle|-78.20
+2026-02-18|14:00:00|Consulting payment|Blue Ocean LLC|1600.00
+2025-10-01|09:00:00|October rent|Landlord|-950.00
+2026-03-30|20:15:15|Streaming subscription|Netflix|-15.49
+2025-03-25|11:05:00|Stock photo purchase|Shutterstock|-12.00
+2026-01-28|15:45:00|Invoice 2004 paid|Northwind|1325.00
+2025-05-18|10:30:00|Desk lamp|IKEA|-39.99
+2026-04-15|13:10:00|Client reimbursement|Acme Client|120.00
+2025-07-22|16:40:00|Cloud storage|Google|-9.99
+2026-02-25|09:55:00|Security software|Norton|-49.99
+2025-08-30|11:20:00|Electric bill|City Utilities|-135.67
+2026-03-05|17:05:00|Invoice 2005 paid|Acme Client|2100.00
+2025-12-05|08:30:00|Printer ink|Staples|-65.10
+2026-01-10|14:45:00|Office snacks|Costco|-42.75
+2025-04-10|10:00:00|Website hosting|DigitalOcean|-58.00
+2026-02-08|12:30:00|Client coffee|Starbucks|-18.25
+2025-09-12|15:15:00|Freelance bonus|Northwind|400.00
+2026-04-20|09:35:00|Software license|Microsoft|-199.99
+2024-12-20|15:45:00|Holiday client gift|Amazon|-85.50
+2024-11-15|10:30:00|Invoice 1987 paid|Acme Client|1450.00
+2024-10-01|09:00:00|October rent|Landlord|-900.00
+2024-09-18|13:20:00|Electric bill|City Utilities|-118.75
+2024-08-10|11:05:00|Client lunch|Panera|-32.40
+2024-07-01|09:00:00|July rent|Landlord|-900.00
+2024-06-22|16:45:00|Consulting payment|Northwind|1750.00
+2024-05-14|14:10:00|Office supplies|Staples|-56.30
+2024-04-03|10:00:00|Website hosting|DigitalOcean|-52.00
+2024-03-25|12:30:00|Invoice 1972 paid|Blue Ocean LLC|980.00
+2024-02-14|18:15:00|Client dinner|Olive Garden|-64.80
+2024-01-01|09:00:00|January rent|Landlord|-900.00
+2023-12-31|23:59:00|Year-end bonus|Bank|650.00
+2023-11-20|08:10:00|Office coffee|Costco|-48.90
+2023-10-05|14:25:00|Internet bill|Comcast|-85.00
+2023-09-12|17:40:00|Freelance payment|Acme Client|1200.00
+2023-08-01|09:00:00|August rent|Landlord|-875.00
+2023-07-19|12:50:00|Team lunch|Chipotle|-59.25
+2023-06-30|16:30:00|Invoice 1901 paid|Northwind|1320.00
+2023-05-21|11:15:00|Monitor purchase|Amazon|-210.00
+2023-04-10|09:45:00|Cloud hosting|DigitalOcean|-49.99
+2023-03-03|13:05:00|Office chair|IKEA|-175.00
+2023-02-11|10:20:00|Software subscription|Adobe|-29.99
+2023-01-05|09:00:00|Opening balance deposit|Bank|800.00
