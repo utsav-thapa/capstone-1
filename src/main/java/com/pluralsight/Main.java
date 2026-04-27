@@ -3,16 +3,22 @@ package com.pluralsight;
 import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 public class Main {
     public static final String TRANSACTIONS_FILE_NAME = "src/main/resources/transactions.csv";
     static Scanner scanner = new Scanner(System.in);
     static String BOLD = "\u001B[1m";
+    static String RED = "\u001B[91m";
     static String BLUE = "\u001B[94m";
+    static String GREEN = "\u001B[92m";
     static String PURPLE = "\u001B[95m";
     static String RESET = "\u001B[0m";
+    static FileWriter fileWriter = null;
+    static BufferedWriter bufferedWriter = null;
 
     static ArrayList <Transactions> transactions = loadTransactions(TRANSACTIONS_FILE_NAME);
 
@@ -110,26 +116,26 @@ public class Main {
     };
 
     private static void addDeposit() {
-        System.out.print(PURPLE+ "Enter the deposit amount: $" + RESET);
+        System.out.print(GREEN+ "Enter the deposit amount: $" + RESET);
         double depositAmount = Double.parseDouble(scanner.nextLine());
 
-        System.out.print(PURPLE + "Enter the vendor name: " + RESET);
+        System.out.print(GREEN + "Enter the vendor name: " + RESET);
         String vendor = scanner.nextLine();
 
-        System.out.print(PURPLE + "Enter the description: " + RESET);
+        System.out.print(GREEN + "Enter the description: " + RESET);
         String description = scanner.nextLine();
-
-        FileWriter fileWriter = null;
-        BufferedWriter bufferedWriter = null;
 
         try {
             fileWriter = new FileWriter(TRANSACTIONS_FILE_NAME, true); //true appends the file instead of replacing it
             bufferedWriter = new BufferedWriter(fileWriter);
 
-            String finalLine = String.format("%s|%s|%s|%s|%.2f",
-                    LocalDate.now(),LocalTime.now(),description,vendor,depositAmount);
-            bufferedWriter.append(finalLine);
-            bufferedWriter.newLine();
+            //had to format it because the output of the just localtime gave out the seconds in a float
+            DateTimeFormatter est = DateTimeFormatter.ofPattern("HH:mm:ss");
+            String timeNow = est.format(LocalTime.now());
+
+            String finalLine = String.format("%s|%s|%s|%s|%.2f\n",
+                    LocalDate.now(),timeNow,description,vendor,depositAmount);
+            bufferedWriter.write(finalLine);
             bufferedWriter.close();
 
         } catch (IOException e) {
@@ -137,13 +143,81 @@ public class Main {
         }
     }
 
-    private static void ledger() {
-        String ledgerMenu = """
-                
-                """;
+    private static void makePayment() {
+        System.out.print(RED + "Enter the payment amount: $" + RESET);
+        double paymentAmount = Double.parseDouble(scanner.nextLine());
+
+        System.out.print(RED + "Enter the vendor name: " + RESET);
+        String vendor = scanner.nextLine();
+
+        System.out.print(RED + "Enter the description: " + RESET);
+        String description = scanner.nextLine();
+
+        try {
+            fileWriter = new FileWriter(TRANSACTIONS_FILE_NAME, true); //true appends the file instead of replacing it
+            bufferedWriter = new BufferedWriter(fileWriter);
+
+            DateTimeFormatter est = DateTimeFormatter.ofPattern("HH:mm:ss");
+            String timeNow = est.format(LocalTime.now());
+
+            String finalLine = String.format("%s|%s|%s|%s|-%.2f\n",
+                    LocalDate.now(),timeNow,description,vendor,paymentAmount);
+            bufferedWriter.write(finalLine);
+            bufferedWriter.close();
+
+        } catch (IOException e) {
+            System.err.println("Something went wrong.");;
+        }
     }
 
-    private static void makePayment() {
 
+
+    private static void ledger() {
+        String ledgerHead = """
+                Ledger
+                *) All (Display all entries)                  (Enter 'A')
+                *) Deposits (Deposits made into the account.) (Enter 'D')
+                *) Payments (Payments made from the account.) (Enter 'P')
+                *) Reports (Run a custom search.)             (Enter 'R')
+                *) Home (Go back to the home page.)           (Enter 'H')  
+                """;
+        String userInput = scanner.nextLine();
+        
+        switch (userInput) {
+            case "A","a":
+                displayAllEntries();
+                break;
+            case "d","D":
+                deposits();
+                break;
+            case "p","P":
+                payments();
+            case "R","r":
+                reports();
+                break;
+            case "H","h":
+                break;
+            default:
+                System.err.println("Are you trying to break the system?");
+                break;
+        }
+
+        
+
+    }
+
+    private static void displayAllEntries() {
+    }
+
+    private static void deposits() {
+        
+    }
+
+    private static void payments() {
+        
+    }
+
+    private static void reports() {
+        
     }
 }
