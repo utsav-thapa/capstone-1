@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Scanner;
 
 public class Main {
@@ -171,13 +170,17 @@ public class Main {
     }
     private static void ledger() {
         String ledgerHead = """
-                Ledger
+                                    Ledger
+                ------------X------------X------------X------------X------------
                 *) All (Display all entries)                  (Enter 'A')
                 *) Deposits (Deposits made into the account.) (Enter 'D')
                 *) Payments (Payments made from the account.) (Enter 'P')
                 *) Reports (Run a custom search.)             (Enter 'R')
-                *) Home (Go back to the home page.)           (Enter 'H')  
+                *) Home (Go back to the home page.)           (Enter 'H')
+                ----------------------------------------------------------------
+                Enter: 
                 """;
+        System.out.println(BLUE + ledgerHead + RESET);
         String userInput = scanner.nextLine();
         
         switch (userInput) {
