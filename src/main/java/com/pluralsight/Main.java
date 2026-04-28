@@ -169,9 +169,6 @@ public class Main {
             System.err.println("Something went wrong.");;
         }
     }
-
-
-
     private static void ledger() {
         String ledgerHead = """
                 Ledger
@@ -201,12 +198,10 @@ public class Main {
                 System.err.println("Are you trying to break the system?");
                 break;
         }
-
-        
-
     }
 
     private static void displayAllEntries() {
+        
     }
 
     private static void deposits() {
