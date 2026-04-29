@@ -343,6 +343,7 @@ public class Main {
                     }
                     break;
                 case "6":
+                    customSearch();
                     break;
                 case "0":
                     running = false;
@@ -354,5 +355,8 @@ public class Main {
         } while (running);
 
         
+    }
+
+    private static void customSearch() {
     }
 }
