@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-public class Transactions {
+public class Transaction {
     private LocalDate date;
     private LocalTime time;
     private String description;
@@ -12,7 +12,7 @@ public class Transactions {
     private double amount;
     DateTimeFormatter abc = DateTimeFormatter.ofPattern("HH:mm:ss");
 
-    public Transactions(LocalDate date, LocalTime time, String description, String vendor, double amount) {
+    public Transaction(LocalDate date, LocalTime time, String description, String vendor, double amount) {
         this.date = date;
         this.time = time;
         this.description = description;
