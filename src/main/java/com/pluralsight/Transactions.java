@@ -39,6 +39,6 @@ public class Transactions {
     }
 
     public void allTransactions(){
-        System.out.printf("%-12s %-10s %-30s %-15s $%-8.2f\n",date,time,description,vendor,amount);
+        System.out.printf("%-12s %-10s %-30s %-15s $%8.2f\n",date,time,description,vendor,amount);
         }
 }

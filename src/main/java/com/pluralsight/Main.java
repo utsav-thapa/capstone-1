@@ -178,8 +178,7 @@ public class Main {
     }
     private static void ledger() {
         boolean running = true;
-        do {
-            String ledgerHead = """
+        String ledgerHead = """
                                         Ledger
                     ------------X------------X------------X------------X------------
                     *) All (Display all entries)                  (Enter 'A')
@@ -189,6 +188,8 @@ public class Main {
                     *) Home (Go back to the home page.)           (Enter 'H')
                     ----------------------------------------------------------------
                     Enter: """;
+        do {
+
             System.out.print(BLUE + ledgerHead + RESET);
             String userInput = scanner.nextLine();
             switch (userInput) {
@@ -222,26 +223,42 @@ public class Main {
     }
 
     private static void deposits() {
-        System.out.printf(GREEN +"%-12s %-10s %-30s %-15s %s\n","Date","Time","Transaction","Vendor","Amount"+RESET);
+        System.out.printf(GREEN +"%-12s %-10s %-30s %-15s %s\n","Date","Time","Transaction","Vendor","Amount");
         for (Transactions i: transactions) {
             if (i.getAmount()>0) {
                 i.allTransactions();
             }
         }
+        System.out.println(RESET);
+
         
     }
 
     private static void payments() {
-        System.out.printf(RED +"%-12s %-10s %-30s %-15s %s\n","Date","Time","Transaction","Vendor","Amount"+RESET);
+        System.out.printf(RED +"%-12s %-10s %-30s %-15s %s\n","Date","Time","Transaction","Vendor","Amount");
         for (Transactions i: transactions) {
             if (i.getAmount() < 0) {
                 i.allTransactions();
             }
         }
+        System.out.println(RESET);
         
     }
 
     private static void reports() {
+        boolean running = true;
+        String reportsMenu = """
+                =======================
+                     Reports
+                =======================
+                1. Month to Date
+                2. Previous Month
+                3. Year to Date
+                4. Previous Year
+                5. Search by Vendor
+                
+                Enter: """;
+
         
     }
 }
