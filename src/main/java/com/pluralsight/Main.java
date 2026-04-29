@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class Main {
@@ -21,11 +22,10 @@ public class Main {
 
     static ArrayList <Transactions> transactions = loadTransactions(TRANSACTIONS_FILE_NAME);
 
-
     public static void main(String[] args) {
         mainMenu();
-        System.out.println("Thank you for using Bank of Thapa.");
-        System.out.println("Have a good day! :)");
+        System.out.println(RED + BOLD + "Thank you for using Bank of Thapa."+ RESET);
+        System.out.println(BLUE +"Have a good day! :)" + RESET);
     }
 
     private static void mainMenu() {
@@ -49,7 +49,7 @@ public class Main {
         boolean running = true;
 
         do {
-            System.out.print(BOLD + BLUE + mainHeader + RESET + PURPLE + mainMenu + RESET);
+            System.out.print(BOLD + RED + mainHeader + RESET + BLUE + mainMenu + RESET);
             String userInput = scanner.nextLine();
 
             switch (userInput) {
@@ -72,6 +72,17 @@ public class Main {
         } while (running);
     }
 
+
+    private static Transactions parseTransaction(String line) {
+        String[] parts =line.split("\\|");
+        LocalDate date = LocalDate.parse(parts[0]);
+        LocalTime time = LocalTime.parse(parts[1]);
+        String description = parts[2];
+        String vendor = parts[3];
+        double amount = Double.parseDouble(parts[4]);
+
+        return new Transactions(date,time,description,vendor,amount);
+    };
     private static ArrayList<Transactions> loadTransactions(String transactionsFileName) {
 
         ArrayList <Transactions> transactions = new ArrayList <Transactions>();
@@ -94,6 +105,14 @@ public class Main {
             }
             bufferedReader.close();
 
+            //sorting it by recent transactions first by time
+            transactions.sort(Comparator.comparing(Transactions::getTime).reversed());
+
+            //sorting it by date
+            transactions.sort(Comparator.comparing(Transactions::getDate).reversed());
+
+
+
 
         } catch (FileNotFoundException fileNotFoundException) {
             System.err.println("The system can't find the file named " + transactionsFileName);;
@@ -102,17 +121,6 @@ public class Main {
         }
         return transactions;
     }
-
-    private static Transactions parseTransaction(String line) {
-        String[] parts =line.split("\\|");
-        LocalDate date = LocalDate.parse(parts[0]);
-        LocalTime time = LocalTime.parse(parts[1]);
-        String description = parts[2];
-        String vendor = parts[3];
-        double amount = Double.parseDouble(parts[4]);
-
-        return new Transactions(date,time,description,vendor,amount);
-    };
 
     private static void addDeposit() {
         System.out.print(GREEN+ "Enter the deposit amount: $" + RESET);
@@ -169,49 +177,67 @@ public class Main {
         }
     }
     private static void ledger() {
-        String ledgerHead = """
-                                    Ledger
-                ------------X------------X------------X------------X------------
-                *) All (Display all entries)                  (Enter 'A')
-                *) Deposits (Deposits made into the account.) (Enter 'D')
-                *) Payments (Payments made from the account.) (Enter 'P')
-                *) Reports (Run a custom search.)             (Enter 'R')
-                *) Home (Go back to the home page.)           (Enter 'H')
-                ----------------------------------------------------------------
-                Enter: 
-                """;
-        System.out.println(BLUE + ledgerHead + RESET);
-        String userInput = scanner.nextLine();
-        
-        switch (userInput) {
-            case "A","a":
-                displayAllEntries();
-                break;
-            case "d","D":
-                deposits();
-                break;
-            case "p","P":
-                payments();
-            case "R","r":
-                reports();
-                break;
-            case "H","h":
-                break;
-            default:
-                System.err.println("Are you trying to break the system?");
-                break;
-        }
+        boolean running = true;
+        do {
+            String ledgerHead = """
+                                        Ledger
+                    ------------X------------X------------X------------X------------
+                    *) All (Display all entries)                  (Enter 'A')
+                    *) Deposits (Deposits made into the account.) (Enter 'D')
+                    *) Payments (Payments made from the account.) (Enter 'P')
+                    *) Reports (Run a custom search.)             (Enter 'R')
+                    *) Home (Go back to the home page.)           (Enter 'H')
+                    ----------------------------------------------------------------
+                    Enter: """;
+            System.out.print(BLUE + ledgerHead + RESET);
+            String userInput = scanner.nextLine();
+            switch (userInput) {
+                case "A", "a":
+                    displayAllEntries();
+                    break;
+                case "d", "D":
+                    deposits();
+                    break;
+                case "p", "P":
+                    payments();
+                case "R", "r":
+                    reports();
+                    break;
+                case "H", "h":
+                    running = false;
+                    break;
+                default:
+                    System.err.println("Are you trying to break the system?");
+                    break;
+            }
+        } while (running);
     }
 
     private static void displayAllEntries() {
+        System.out.printf(PURPLE+"%-12s %-10s %-30s %-15s %s\n","Date","Time","Transaction","Vendor","Amount"+RESET);
+        for (Transactions i: transactions) {
+            i.allTransactions();
+        }
         
     }
 
     private static void deposits() {
+        System.out.printf(GREEN +"%-12s %-10s %-30s %-15s %s\n","Date","Time","Transaction","Vendor","Amount"+RESET);
+        for (Transactions i: transactions) {
+            if (i.getAmount()>0) {
+                i.allTransactions();
+            }
+        }
         
     }
 
     private static void payments() {
+        System.out.printf(RED +"%-12s %-10s %-30s %-15s %s\n","Date","Time","Transaction","Vendor","Amount"+RESET);
+        for (Transactions i: transactions) {
+            if (i.getAmount() < 0) {
+                i.allTransactions();
+            }
+        }
         
     }
 
