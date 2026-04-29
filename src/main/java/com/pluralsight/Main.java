@@ -143,7 +143,9 @@ public class Main {
             String finalLine = String.format("%s|%s|%s|%s|%.2f\n",
                     LocalDate.now(),timeNow,description,vendor,depositAmount);
             bufferedWriter.write(finalLine);
+//            bufferedWriter.flush();
             bufferedWriter.close();
+            transactions.add(new Transactions(LocalDate.now(),LocalTime.now(),description,vendor,depositAmount));
 
         } catch (IOException e) {
             System.err.println("Something went wrong.");;
@@ -170,7 +172,10 @@ public class Main {
             String finalLine = String.format("%s|%s|%s|%s|-%.2f\n",
                     LocalDate.now(),timeNow,description,vendor,paymentAmount);
             bufferedWriter.write(finalLine);
+//            bufferedWriter.flush();
             bufferedWriter.close();
+            transactions.add(new Transactions(LocalDate.now(),LocalTime.now(),description,vendor,paymentAmount));
+
 
         } catch (IOException e) {
             System.err.println("Something went wrong.");;
@@ -179,8 +184,10 @@ public class Main {
     private static void ledger() {
         boolean running = true;
         String ledgerHead = """
-                                        Ledger
-                    ------------X------------X------------X------------X------------
+                    ================================================================
+                    --------X--------X-------Ledger--------X--------X--------X-----
+                    ================================================================
+                    
                     *) All (Display all entries)                  (Enter 'A')
                     *) Deposits (Deposits made into the account.) (Enter 'D')
                     *) Payments (Payments made from the account.) (Enter 'P')
@@ -201,6 +208,7 @@ public class Main {
                     break;
                 case "p", "P":
                     payments();
+                    break;
                 case "R", "r":
                     reports();
                     break;
@@ -215,18 +223,30 @@ public class Main {
     }
 
     private static void displayAllEntries() {
+        //sorting it by recent transactions first by time
+        transactions.sort(Comparator.comparing(Transactions::getTime).reversed());
+
+        //sorting it by date
+        transactions.sort(Comparator.comparing(Transactions::getDate).reversed());
+
         System.out.printf(PURPLE+"%-12s %-10s %-30s %-15s %s\n","Date","Time","Transaction","Vendor","Amount"+RESET);
         for (Transactions i: transactions) {
-            i.allTransactions();
+            i.displayTransactions();
         }
         
     }
 
     private static void deposits() {
+        //sorting it by recent transactions first by time
+        transactions.sort(Comparator.comparing(Transactions::getTime).reversed());
+
+        //sorting it by date
+        transactions.sort(Comparator.comparing(Transactions::getDate).reversed());
+
         System.out.printf(GREEN +"%-12s %-10s %-30s %-15s %s\n","Date","Time","Transaction","Vendor","Amount");
         for (Transactions i: transactions) {
             if (i.getAmount()>0) {
-                i.allTransactions();
+                i.displayTransactions();
             }
         }
         System.out.println(RESET);
@@ -235,10 +255,16 @@ public class Main {
     }
 
     private static void payments() {
+        //sorting it by recent transactions first by time
+        transactions.sort(Comparator.comparing(Transactions::getTime).reversed());
+
+        //sorting it by date
+        transactions.sort(Comparator.comparing(Transactions::getDate).reversed());
+
         System.out.printf(RED +"%-12s %-10s %-30s %-15s %s\n","Date","Time","Transaction","Vendor","Amount");
         for (Transactions i: transactions) {
             if (i.getAmount() < 0) {
-                i.allTransactions();
+                i.displayTransactions();
             }
         }
         System.out.println(RESET);
@@ -246,6 +272,12 @@ public class Main {
     }
 
     private static void reports() {
+        //sorting it by recent transactions first by time
+        transactions.sort(Comparator.comparing(Transactions::getTime).reversed());
+
+        //sorting it by date
+        transactions.sort(Comparator.comparing(Transactions::getDate).reversed());
+
         boolean running = true;
         String reportsMenu = """
                 =======================
@@ -256,8 +288,70 @@ public class Main {
                 3. Year to Date
                 4. Previous Year
                 5. Search by Vendor
+                6. Custom Search
+                0. Back to the Ledger page
                 
+                =======================
                 Enter: """;
+
+        do {
+            System.out.println(BLUE + reportsMenu);
+            String userInput = scanner.nextLine();
+            switch (userInput) {
+                case "1":
+                    System.out.printf("%-12s %-10s %-30s %-15s %s\n","Date","Time","Transaction","Vendor","Amount");
+
+                    for (Transactions t : transactions) {
+                        if ((t.getDate().getYear() == LocalDate.now().getYear()) &&
+                        (t.getDate().getMonth() == LocalDate.now().getMonth())) {
+                            t.displayTransactions();
+                        }
+                    }
+                    break;
+                case "2":
+                    System.out.printf("%-12s %-10s %-30s %-15s %s\n","Date","Time","Transaction","Vendor","Amount");
+                    for (Transactions t: transactions) {
+                        if ((t.getDate().getYear() == 2026) &&
+                                (t.getDate().getMonthValue() == (LocalDate.now().getMonthValue() - 1))) {
+                            t.displayTransactions();
+                        }
+                    }
+                    break;
+                case "3":
+                    System.out.printf("%-12s %-10s %-30s %-15s %s\n","Date","Time","Transaction","Vendor","Amount");
+                    for (Transactions t : transactions) {
+                        if (t.getDate().getYear() == LocalDate.now().getYear()) {
+                            t.displayTransactions();
+                        }
+                    }
+                    break;
+                case "4":
+                    System.out.printf("%-12s %-10s %-30s %-15s %s\n","Date","Time","Transaction","Vendor","Amount");
+                    for (Transactions t: transactions) {
+                        if (t.getDate().getYear() == (LocalDate.now().getYear()) - 1) {
+                            t.displayTransactions();
+                        }
+                    }
+                    break;
+                case "5":
+                    System.out.println("What is the name of the vendor?");
+                    String inputVendor = scanner.nextLine();
+                    for (Transactions t: transactions) {
+                        if (t.getVendor().equalsIgnoreCase(inputVendor)) {
+                            t.displayTransactions();
+                        }
+                    }
+                    break;
+                case "6":
+                    break;
+                case "0":
+                    running = false;
+                    break;
+                default:
+                    System.err.println("Are you trying to break the app?");
+                    break;
+            }
+        } while (running);
 
         
     }
