@@ -81,8 +81,8 @@ public class Main {
     private static ArrayList<Transaction> loadTransactions(String transactionsFileName) {
 
         ArrayList <Transaction> transactions = new ArrayList <Transaction>();
-        FileReader fileReader = null;
-        BufferedReader bufferedReader = null;
+        FileReader fileReader;
+        BufferedReader bufferedReader;
 
         try {
             fileReader = new FileReader(transactionsFileName);
@@ -140,8 +140,8 @@ public class Main {
 
         System.out.println(RESET);
 
-        FileWriter fileWriter = null;
-        BufferedWriter bufferedWriter = null;
+        FileWriter fileWriter;
+        BufferedWriter bufferedWriter;
 
         try {
             fileWriter = new FileWriter(TRANSACTIONS_FILE_NAME, true); //true appends the file instead of replacing it
@@ -336,6 +336,7 @@ public class Main {
     }
 
     private static void customSearch() {
+
 
         //
 //        ArrayList<Transaction> results = filterByDate(transactions);
