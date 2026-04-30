@@ -38,26 +38,39 @@ public class Main {
     private static void mainMenu() {
 
         String mainHeader = """
-                ================================================
-                        Welcome to Bank of Thapa!
-                ================================================
+                =====================================================================================================================================
+                
+                
+                 _______    ______   __    __  __    __         ______   ________        ________  __    __   ______   _______    ______ \s
+                /       \\  /      \\ /  \\  /  |/  |  /  |       /      \\ /        |      /        |/  |  /  | /      \\ /       \\  /      \\\s
+                $$$$$$$  |/$$$$$$  |$$  \\ $$ |$$ | /$$/       /$$$$$$  |$$$$$$$$/       $$$$$$$$/ $$ |  $$ |/$$$$$$  |$$$$$$$  |/$$$$$$  |
+                $$ |__$$ |$$ |__$$ |$$$  \\$$ |$$ |/$$/        $$ |  $$ |$$ |__             $$ |   $$ |__$$ |$$ |__$$ |$$ |__$$ |$$ |__$$ |
+                $$    $$< $$    $$ |$$$$  $$ |$$  $$<         $$ |  $$ |$$    |            $$ |   $$    $$ |$$    $$ |$$    $$/ $$    $$ |
+                $$$$$$$  |$$$$$$$$ |$$ $$ $$ |$$$$$  \\        $$ |  $$ |$$$$$/             $$ |   $$$$$$$$ |$$$$$$$$ |$$$$$$$/  $$$$$$$$ |
+                $$ |__$$ |$$ |  $$ |$$ |$$$$ |$$ |$$  \\       $$ \\__$$ |$$ |               $$ |   $$ |  $$ |$$ |  $$ |$$ |      $$ |  $$ |
+                $$    $$/ $$ |  $$ |$$ | $$$ |$$ | $$  |      $$    $$/ $$ |               $$ |   $$ |  $$ |$$ |  $$ |$$ |      $$ |  $$ |
+                $$$$$$$/  $$/   $$/ $$/   $$/ $$/   $$/        $$$$$$/  $$/                $$/    $$/   $$/ $$/   $$/ $$/       $$/   $$/\s
+                
+                
+                
+                ====================================================================================================================================
                 """;
         String mainMenu ="""
                 
                     What would you like to do today?
                 
                 ------------------------------------------------
-                (*) Add Deposit          (Press D)
-                (*) Make Payment (Debit) (Press P)
-                (*) Ledger               (Press L)
-                (*) Exit                 (Press X to Exit)
+                (*) Add Deposit          [D]
+                (*) Make Payment (Debit) [P]
+                (*) Ledger               [L]
+                (*) Exit                 [X]
                 ------------------------------------------------
                 Enter:""";
         boolean running = true;
 
         // looping it until user chooses to exit
         do {
-            System.out.print(BOLD + RED + mainHeader + RESET + BLUE + mainMenu + RESET);
+            System.out.print(RED + mainHeader + RESET + BLUE + mainMenu + RESET);
             String userInput = scanner.nextLine();
 
             switch (userInput) {
@@ -199,11 +212,11 @@ public class Main {
                     --------X--------X-------Ledger--------X--------X--------X-----
                     ================================================================
                     
-                    *) All (Display all entries)                  (Enter 'A')
-                    *) Deposits (Deposits made into the account.) (Enter 'D')
-                    *) Payments (Payments made from the account.) (Enter 'P')
-                    *) Reports (Run a custom search.)             (Enter 'R')
-                    *) Home (Go back to the home page.)           (Enter 'H')
+                    (*) All (Display all entries)                        [A]
+                    (*) Deposits (Deposits made into the account.)       [D]
+                    (*) Payments (Payments made from the account.)       [P]
+                    (*) Reports (Run a custom search.)                   [R]
+                    (*) Home (Go back to the home page.)                 [H]
                     ----------------------------------------------------------------
                     Enter:""";
 
