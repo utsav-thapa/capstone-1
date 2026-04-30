@@ -143,18 +143,18 @@ public class Main {
     // when deposit is to be added
     private static void addDeposit() {
         System.out.println(GREEN);
-        addEntry();
+        addEntry(true);
         System.out.println(RESET);
     }
 
     //to add payment transaction
     private static void makePayment() {
         System.out.print(RED);
-        addEntry();
+        addEntry(false);
         System.out.println(RESET);
     }
 
-    private static void addEntry() {
+    private static void addEntry(boolean a) {
 
         //loop if user wants to add more transactions
         boolean addAnother = true;
@@ -181,6 +181,10 @@ public class Main {
                 fileWriter = new FileWriter(TRANSACTIONS_FILE_NAME, true); //true appends the file instead of replacing it
                 bufferedWriter = new BufferedWriter(fileWriter);
 
+
+                if (!a) {
+                    depositAmount = -depositAmount;
+                }
                 //format user input in the csv file
                 String finalLine = String.format("%s|%s|%s|%s|%.2f\n",
                         date, time, description, vendor, depositAmount);
