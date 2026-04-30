@@ -3,7 +3,6 @@ package com.pluralsight;
 import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Scanner;
@@ -17,10 +16,6 @@ public class Main {
     static String GREEN = "\u001B[92m";
     static String PURPLE = "\u001B[95m";
     static String RESET = "\u001B[0m";
-
-    //static final String HEADER = String.format();
-    static FileWriter fileWriter = null;
-    static BufferedWriter bufferedWriter = null;
 
     static ArrayList <Transaction> transactions = loadTransactions(TRANSACTIONS_FILE_NAME);
 
@@ -47,7 +42,7 @@ public class Main {
                 *) Ledger               (Press L)
                 *) Exit                 (Press X to Exit)
                 ------------------------------------------------
-                Enter:   """;
+                Enter:""";
         boolean running = true;
 
         do {
@@ -82,7 +77,7 @@ public class Main {
         double amount = Double.parseDouble(parts[4]);
 
         return new Transaction(date,time,description,vendor,amount);
-    };
+    }
     private static ArrayList<Transaction> loadTransactions(String transactionsFileName) {
 
         ArrayList <Transaction> transactions = new ArrayList <Transaction>();
@@ -106,21 +101,28 @@ public class Main {
             bufferedReader.close();
 
             //sorting it by recent transactions first by time
-            transactions.sort(Comparator.comparing(Transaction::getTime).reversed());
-
-            //sorting it by date
-            transactions.sort(Comparator.comparing(Transaction::getDate).reversed());
+            justSortIt(transactions);
 
         } catch (FileNotFoundException fileNotFoundException) {
-            System.err.println("The system can't find the file named " + transactionsFileName);;
+            System.err.println("The system can't find the file named " + transactionsFileName);
         } catch (IOException ioException) {
-            System.err.println("The system wasn't able to read the file named " + transactionsFileName);;
+            System.err.println("The system wasn't able to read the file named " + transactionsFileName);
         }
         return transactions;
     }
 
     private static void addDeposit() {
         System.out.println(GREEN);
+        addEntry();
+        System.out.println(RESET);
+    }
+
+    private static void makePayment() {
+        System.out.print(RED);
+        addEntry();
+        System.out.println(RESET);
+    }
+    private static void addEntry() {
         System.out.print("Enter the amount: $");
         double depositAmount = Double.parseDouble(scanner.nextLine());
 
@@ -130,13 +132,16 @@ public class Main {
         System.out.print("Enter the description: ");
         String description = scanner.nextLine();
 
-        System.out.print("Enter the date of the transaction (YYYY-mm-dd): ");
+        System.out.print("Enter the date of the transaction (yyyy-MM-dd): ");
         LocalDate date = LocalDate.parse(scanner.nextLine());
 
         System.out.print("Enter the time of the transaction (HH:mm:ss): ");
         LocalTime time = LocalTime.parse(scanner.nextLine());
 
         System.out.println(RESET);
+
+        FileWriter fileWriter = null;
+        BufferedWriter bufferedWriter = null;
 
         try {
             fileWriter = new FileWriter(TRANSACTIONS_FILE_NAME, true); //true appends the file instead of replacing it
@@ -153,44 +158,10 @@ public class Main {
             transactions.add(new Transaction(date,time,description,vendor,depositAmount));
 
         } catch (IOException e) {
-            System.err.println("Something went wrong.");;
+            System.err.println("Something went wrong.");
         }
     }
 
-    private static void makePayment() {
-        System.out.print(RED + "Enter the amount: $" + RESET);
-        double paymentAmount = Double.parseDouble(scanner.nextLine());
-
-        System.out.print(RED + "Enter the vendor name: " + RESET);
-        String vendor = scanner.nextLine();
-
-        System.out.print(RED + "Enter the description: " + RESET);
-        String description = scanner.nextLine();
-
-        System.out.print("Enter the date of the transaction (YYYY-mm-dd): ");
-        LocalDate date = LocalDate.parse(scanner.nextLine());
-
-        System.out.print("Enter the time of the transaction (HH:mm:ss): ");
-        LocalTime time = LocalTime.parse(scanner.nextLine());
-
-        try {
-            fileWriter = new FileWriter(TRANSACTIONS_FILE_NAME, true); //true appends the file instead of replacing it
-            bufferedWriter = new BufferedWriter(fileWriter);
-
-//            DateTimeFormatter est = DateTimeFormatter.ofPattern("HH:mm:ss");
-//            String timeNow = est.format(LocalTime.now());
-
-            String finalLine = String.format("%s|%s|%s|%s|-%.2f\n",
-                    date,time,description,vendor,paymentAmount);
-            bufferedWriter.write(finalLine);
-            bufferedWriter.close();
-            transactions.add(new Transaction(date,time,description,vendor,paymentAmount));
-
-
-        } catch (IOException e) {
-            System.err.println("Something went wrong.");;
-        }
-    }
     private static void ledger() {
         boolean running = true;
         String ledgerHead = """
@@ -204,7 +175,7 @@ public class Main {
                     *) Reports (Run a custom search.)             (Enter 'R')
                     *) Home (Go back to the home page.)           (Enter 'H')
                     ----------------------------------------------------------------
-                    Enter: """;
+                    Enter:""";
         do {
 
             System.out.print(BLUE + ledgerHead + RESET);
@@ -233,11 +204,7 @@ public class Main {
     }
 
     private static void displayAllEntries() {
-        //sorting it by recent transactions first by time
-        transactions.sort(Comparator.comparing(Transaction::getTime).reversed());
-
-        //sorting it by date
-        transactions.sort(Comparator.comparing(Transaction::getDate).reversed());
+        justSortIt(transactions);
 
         System.out.printf(PURPLE+"%-12s %-10s %-30s %-15s %s\n","Date","Time","Transaction","Vendor","Amount"+RESET);
         for (Transaction i: transactions) {
@@ -246,12 +213,16 @@ public class Main {
         
     }
 
-    private static void deposits() {
+    private static void justSortIt(ArrayList<Transaction> transactions) {
         //sorting it by recent transactions first by time
         transactions.sort(Comparator.comparing(Transaction::getTime).reversed());
 
         //sorting it by date
         transactions.sort(Comparator.comparing(Transaction::getDate).reversed());
+    }
+
+    private static void deposits() {
+        justSortIt(transactions);
 
         System.out.printf(GREEN +"%-12s %-10s %-30s %-15s %s\n","Date","Time","Transaction","Vendor","Amount");
         for (Transaction i: transactions) {
@@ -263,11 +234,7 @@ public class Main {
     }
 
     private static void payments() {
-        //sorting it by recent transactions first by time
-        transactions.sort(Comparator.comparing(Transaction::getTime).reversed());
-
-        //sorting it by date
-        transactions.sort(Comparator.comparing(Transaction::getDate).reversed());
+        justSortIt(transactions);
 
         System.out.printf(RED +"%-12s %-10s %-30s %-15s %s\n","Date","Time","Transaction","Vendor","Amount");
         for (Transaction i: transactions) {
@@ -279,11 +246,7 @@ public class Main {
     }
 
     private static void reports() {
-        //sorting it by recent transactions first by time
-        transactions.sort(Comparator.comparing(Transaction::getTime).reversed());
-
-        //sorting it by date
-        transactions.sort(Comparator.comparing(Transaction::getDate).reversed());
+        justSortIt(transactions);
 
         boolean running = true;
         String reportsMenu = """
@@ -299,7 +262,7 @@ public class Main {
                 0. Back to the Ledger page
                 
                 =======================
-                Enter: """;
+                Enter:""";
 
         do {
             System.out.print(BLUE + reportsMenu);
@@ -317,10 +280,20 @@ public class Main {
                     break;
                 case "2":
                     System.out.printf("%-12s %-10s %-30s %-15s %s\n","Date","Time","Transaction","Vendor","Amount");
-                    for (Transaction t: transactions) {
-                        if ((t.getDate().getYear() == LocalDate.now().getYear()) &&
-                                (t.getDate().getMonthValue() == (LocalDate.now().getMonthValue() - 1))) {
-                            t.displayTransactions();
+                    if (LocalDate.now().getMonthValue() == 1){
+                        for (Transaction t : transactions) {
+                            if (((t.getDate().getYear() == LocalDate.now().getYear()-1)) &&
+                            ((t.getDate().getMonthValue() == 12))) {
+                                t.displayTransactions();
+                            }
+                        }
+
+                    } else {
+                        for (Transaction t : transactions) {
+                            if ((t.getDate().getYear() == LocalDate.now().getYear()) &&
+                                    (t.getDate().getMonthValue() == (LocalDate.now().getMonthValue() - 1))) {
+                                t.displayTransactions();
+                            }
                         }
                     }
                     break;
@@ -360,12 +333,11 @@ public class Main {
                     break;
             }
         } while (running);
-
-        
     }
 
     private static void customSearch() {
-//
+
+        //
 //        ArrayList<Transaction> results = filterByDate(transactions);
 //        results = filterByDescription(results);
 //
