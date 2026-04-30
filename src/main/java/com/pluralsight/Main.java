@@ -34,7 +34,7 @@ public class Main {
         System.out.println(BLUE +"Have a good day! :)" + RESET);
     }
 
-//    main menu loop that handles what the program runs
+    //    main menu loop that handles what the program runs
     private static void mainMenu() {
 
         String mainHeader = """
@@ -68,7 +68,7 @@ public class Main {
                     makePayment();
                     break;
                 case "l", "L":
-                    ledger();
+                    ledgerMenu();
                     break;
                 case "X", "x":
                     running = false;
@@ -140,7 +140,10 @@ public class Main {
         addEntry();
         System.out.println(RESET);
     }
+
     private static void addEntry() {
+
+        //loop if user wants to add more transactions
         boolean addAnother = true;
         do {
             System.out.print("Enter the amount: $");
@@ -165,10 +168,14 @@ public class Main {
                 fileWriter = new FileWriter(TRANSACTIONS_FILE_NAME, true); //true appends the file instead of replacing it
                 bufferedWriter = new BufferedWriter(fileWriter);
 
+                //format user input in the csv file
                 String finalLine = String.format("%s|%s|%s|%s|%.2f\n",
                         date, time, description, vendor, depositAmount);
+                //writes to file
                 bufferedWriter.write(finalLine);
                 bufferedWriter.close();
+
+                //adds to in-memory
                 transactions.add(new Transaction(date, time, description, vendor, depositAmount));
 
             } catch (IOException e) {
@@ -182,9 +189,11 @@ public class Main {
             }
         } while (addAnother);
     }
+    //ledger menu
+    private static void ledgerMenu() {
 
-    private static void ledger() {
         boolean running = true;
+
         String ledgerHead = """
                     ================================================================
                     --------X--------X-------Ledger--------X--------X--------X-----
@@ -197,6 +206,8 @@ public class Main {
                     *) Home (Go back to the home page.)           (Enter 'H')
                     ----------------------------------------------------------------
                     Enter:""";
+
+        //looping until user wants to return the home menu
         do {
 
             System.out.print(BLUE + ledgerHead + RESET);
@@ -212,7 +223,7 @@ public class Main {
                     payments();
                     break;
                 case "R", "r":
-                    reports();
+                    reportsMenu();
                     break;
                 case "H", "h":
                     running = false;
@@ -223,7 +234,7 @@ public class Main {
             }
         } while (running);
     }
-
+    //  displays all transactions
     private static void displayAllEntries() {
         justSortIt(transactions);
 
@@ -231,9 +242,10 @@ public class Main {
         for (Transaction i: transactions) {
             i.displayTransactions();
         }
-        
+
     }
 
+    // sorts transaction by date and time (most recent first)
     private static void justSortIt(ArrayList<Transaction> transactions) {
         //sorting it by recent transactions first by time
         transactions.sort(Comparator.comparing(Transaction::getTime).reversed());
@@ -242,6 +254,7 @@ public class Main {
         transactions.sort(Comparator.comparing(Transaction::getDate).reversed());
     }
 
+    // displays only positive payments
     private static void deposits() {
         justSortIt(transactions);
 
@@ -254,6 +267,7 @@ public class Main {
         System.out.println(RESET);
     }
 
+    // displays only the negative payments
     private static void payments() {
         justSortIt(transactions);
 
@@ -266,7 +280,8 @@ public class Main {
         System.out.println(RESET);
     }
 
-    private static void reports() {
+    // report menu with various filtering options
+    private static void reportsMenu() {
         justSortIt(transactions);
 
         boolean running = true;
@@ -285,6 +300,7 @@ public class Main {
                 =======================
                 Enter:""";
 
+//      loops until user exits the reports menu
         do {
             System.out.print(BLUE + reportsMenu);
             String userInput = scanner.nextLine();
@@ -292,19 +308,22 @@ public class Main {
                 case "1":
                     System.out.printf("%-12s %-10s %-30s %-15s %s\n","Date","Time","Transaction","Vendor","Amount");
 
+//                    month to date filter
                     for (Transaction t : transactions) {
                         if ((t.getDate().getYear() == LocalDate.now().getYear()) &&
-                        (t.getDate().getMonth() == LocalDate.now().getMonth())) {
+                                (t.getDate().getMonth() == LocalDate.now().getMonth())) {
                             t.displayTransactions();
                         }
                     }
                     break;
                 case "2":
                     System.out.printf("%-12s %-10s %-30s %-15s %s\n","Date","Time","Transaction","Vendor","Amount");
+//                    previous month filter
+//                    checks if the current month is january and outputs last year's December if true
                     if (LocalDate.now().getMonthValue() == 1){
                         for (Transaction t : transactions) {
                             if (((t.getDate().getYear() == LocalDate.now().getYear()-1)) &&
-                            ((t.getDate().getMonthValue() == 12))) {
+                                    ((t.getDate().getMonthValue() == 12))) {
                                 t.displayTransactions();
                             }
                         }
@@ -320,6 +339,8 @@ public class Main {
                     break;
                 case "3":
                     System.out.printf("%-12s %-10s %-30s %-15s %s\n","Date","Time","Transaction","Vendor","Amount");
+
+//                    year to date filter
                     for (Transaction t : transactions) {
                         if (t.getDate().getYear() == LocalDate.now().getYear()) {
                             t.displayTransactions();
@@ -328,6 +349,8 @@ public class Main {
                     break;
                 case "4":
                     System.out.printf("%-12s %-10s %-30s %-15s %s\n","Date","Time","Transaction","Vendor","Amount");
+
+//                    last year filter
                     for (Transaction t: transactions) {
                         if (t.getDate().getYear() == (LocalDate.now().getYear()) - 1) {
                             t.displayTransactions();
@@ -335,6 +358,7 @@ public class Main {
                     }
                     break;
                 case "5":
+//                    search by vendor
                     System.out.println("What is the name of the vendor?");
                     String inputVendor = scanner.nextLine();
                     System.out.printf("%-12s %-10s %-30s %-15s %s\n","Date","Time","Transaction","Vendor","Amount");
@@ -344,9 +368,11 @@ public class Main {
                         }
                     }
                     break;
-                case "6":
-                    customSearch();
-                    break;
+                //TODO: make the custom bonus search
+//                    case "6":
+//                    customSearch();
+//                    break;
+
                 case "0":
                     running = false;
                     break;
@@ -357,15 +383,15 @@ public class Main {
         } while (running);
     }
 
-    private static void customSearch() {
+    // private static void customSearch() {
 
 
-        //
+    //
 //        ArrayList<Transaction> results = filterByDate(transactions);
 //        results = filterByDescription(results);
 //
 //        results = filterByAmount(results);
 //
 //
-    }
 }
+
