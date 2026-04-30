@@ -8,8 +8,14 @@ import java.util.Comparator;
 import java.util.Scanner;
 
 public class Main {
+
+    // file path for storing all transaction records
     public static final String TRANSACTIONS_FILE_NAME = "src/main/resources/transactions.csv";
+
+    // scanner for user input from console
     static Scanner scanner = new Scanner(System.in);
+
+    // ansi color codes for styled terminal output
     static String BOLD = "\u001B[1m";
     static String RED = "\u001B[91m";
     static String BLUE = "\u001B[94m";
@@ -17,14 +23,18 @@ public class Main {
     static String PURPLE = "\u001B[95m";
     static String RESET = "\u001B[0m";
 
+    // in-memory list holding all transactions loaded from file
     static ArrayList <Transaction> transactions = loadTransactions(TRANSACTIONS_FILE_NAME);
 
     public static void main(String[] args) {
         mainMenu();
+
+        //exit message
         System.out.println(RED + BOLD + "Thank you for using Bank of Thapa."+ RESET);
         System.out.println(BLUE +"Have a good day! :)" + RESET);
     }
 
+//    main menu loop that handles what the program runs
     private static void mainMenu() {
 
         String mainHeader = """
@@ -37,14 +47,15 @@ public class Main {
                     What would you like to do today?
                 
                 ------------------------------------------------
-                *) Add Deposit          (Press D)
-                *) Make Payment (Debit) (Press P)
-                *) Ledger               (Press L)
-                *) Exit                 (Press X to Exit)
+                (*) Add Deposit          (Press D)
+                (*) Make Payment (Debit) (Press P)
+                (*) Ledger               (Press L)
+                (*) Exit                 (Press X to Exit)
                 ------------------------------------------------
                 Enter:""";
         boolean running = true;
 
+        // looping it until user chooses to exit
         do {
             System.out.print(BOLD + RED + mainHeader + RESET + BLUE + mainMenu + RESET);
             String userInput = scanner.nextLine();
@@ -68,6 +79,8 @@ public class Main {
             }
         } while (running);
     }
+
+    //this converts a csv line into a transaction object
     private static Transaction parseTransaction(String line) {
         String[] parts =line.split("\\|");
         LocalDate date = LocalDate.parse(parts[0]);
@@ -78,6 +91,8 @@ public class Main {
 
         return new Transaction(date,time,description,vendor,amount);
     }
+
+    //this loads all transactions from the file into memory
     private static ArrayList<Transaction> loadTransactions(String transactionsFileName) {
 
         ArrayList <Transaction> transactions = new ArrayList <Transaction>();
@@ -88,11 +103,12 @@ public class Main {
             fileReader = new FileReader(transactionsFileName);
             bufferedReader = new BufferedReader(fileReader);
 
+
             String line = bufferedReader.readLine();
 
-            //to skip the first line of the file which is the header
             line = bufferedReader.readLine();
 
+            // reading each file line by line
             while(line != null) {
                 Transaction transaction = parseTransaction(line);
                 transactions.add(transaction);
@@ -100,7 +116,7 @@ public class Main {
             }
             bufferedReader.close();
 
-            //sorting it by recent transactions first by time
+            //sort the transactions by most recent
             justSortIt(transactions);
 
         } catch (FileNotFoundException fileNotFoundException) {
@@ -111,55 +127,60 @@ public class Main {
         return transactions;
     }
 
+    // when deposit is to be added
     private static void addDeposit() {
         System.out.println(GREEN);
         addEntry();
         System.out.println(RESET);
     }
 
+    //to add payment transaction
     private static void makePayment() {
         System.out.print(RED);
         addEntry();
         System.out.println(RESET);
     }
     private static void addEntry() {
-        System.out.print("Enter the amount: $");
-        double depositAmount = Double.parseDouble(scanner.nextLine());
+        boolean addAnother = true;
+        do {
+            System.out.print("Enter the amount: $");
+            double depositAmount = Double.parseDouble(scanner.nextLine());
 
-        System.out.print("Enter the vendor name: ");
-        String vendor = scanner.nextLine();
+            System.out.print("Enter the vendor name: ");
+            String vendor = scanner.nextLine();
 
-        System.out.print("Enter the description: ");
-        String description = scanner.nextLine();
+            System.out.print("Enter the description: ");
+            String description = scanner.nextLine();
 
-        System.out.print("Enter the date of the transaction (yyyy-MM-dd): ");
-        LocalDate date = LocalDate.parse(scanner.nextLine());
+            System.out.print("Enter the date of the transaction (yyyy-MM-dd): ");
+            LocalDate date = LocalDate.parse(scanner.nextLine());
 
-        System.out.print("Enter the time of the transaction (HH:mm:ss): ");
-        LocalTime time = LocalTime.parse(scanner.nextLine());
+            System.out.print("Enter the time of the transaction (HH:mm:ss): ");
+            LocalTime time = LocalTime.parse(scanner.nextLine());
 
-        System.out.println(RESET);
+            FileWriter fileWriter;
+            BufferedWriter bufferedWriter;
 
-        FileWriter fileWriter;
-        BufferedWriter bufferedWriter;
+            try {
+                fileWriter = new FileWriter(TRANSACTIONS_FILE_NAME, true); //true appends the file instead of replacing it
+                bufferedWriter = new BufferedWriter(fileWriter);
 
-        try {
-            fileWriter = new FileWriter(TRANSACTIONS_FILE_NAME, true); //true appends the file instead of replacing it
-            bufferedWriter = new BufferedWriter(fileWriter);
+                String finalLine = String.format("%s|%s|%s|%s|%.2f\n",
+                        date, time, description, vendor, depositAmount);
+                bufferedWriter.write(finalLine);
+                bufferedWriter.close();
+                transactions.add(new Transaction(date, time, description, vendor, depositAmount));
 
-//            //had to format it because the output of the just localtime gave out the seconds in a float
-//            DateTimeFormatter est = DateTimeFormatter.ofPattern("HH:mm:ss");
-//            String timeNow = est.format(LocalTime.now());
-
-            String finalLine = String.format("%s|%s|%s|%s|%.2f\n",
-                    date,time,description,vendor,depositAmount);
-            bufferedWriter.write(finalLine);
-            bufferedWriter.close();
-            transactions.add(new Transaction(date,time,description,vendor,depositAmount));
-
-        } catch (IOException e) {
-            System.err.println("Something went wrong.");
-        }
+            } catch (IOException e) {
+                System.err.println("Something went wrong.");
+            }
+            System.out.println("Would you like to add another transaction?");
+            System.out.print("Enter (Y/N): ");
+            String userInput = scanner.nextLine();
+            if (userInput.equalsIgnoreCase("N")) {
+                addAnother = false;
+            }
+        } while (addAnother);
     }
 
     private static void ledger() {
@@ -238,7 +259,7 @@ public class Main {
 
         System.out.printf(RED +"%-12s %-10s %-30s %-15s %s\n","Date","Time","Transaction","Vendor","Amount");
         for (Transaction i: transactions) {
-            if (i.getAmount() < 0) {
+            if (i.getAmount()<0) {
                 i.displayTransactions();
             }
         }
@@ -316,6 +337,7 @@ public class Main {
                 case "5":
                     System.out.println("What is the name of the vendor?");
                     String inputVendor = scanner.nextLine();
+                    System.out.printf("%-12s %-10s %-30s %-15s %s\n","Date","Time","Transaction","Vendor","Amount");
                     for (Transaction t: transactions) {
                         if (t.getVendor().equalsIgnoreCase(inputVendor)) {
                             t.displayTransactions();
