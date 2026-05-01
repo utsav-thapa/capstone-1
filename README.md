@@ -130,6 +130,12 @@ Or in IntelliJ use:
 
 ---
 
+## Favorite Code Block
+
+![](favoriteBlock.png)
+
+---
+
 ## Future Improvements 
 
 Planned improvements:
