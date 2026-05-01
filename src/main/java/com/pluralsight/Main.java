@@ -387,8 +387,6 @@ public class Main {
                         }
                     }
                     break;
-                //TODO: make the custom bonus search
-
                 case "6":
                     customSearch();
                     break;
@@ -454,10 +452,11 @@ public class Main {
                 }
             }
             return filterByDescription;
+
         }else {
             return results;
+            }
         }
-    }
 
     private static ArrayList<Transaction> filterByVendor(ArrayList<Transaction> results) {
         ArrayList<Transaction> filterByVendor = new ArrayList<>();
@@ -471,11 +470,11 @@ public class Main {
                 }
             }
             return filterByVendor;
+
         } else {
             return results;
+            }
         }
-    }
-
 
     private static ArrayList<Transaction> filterByAmount(ArrayList<Transaction> results) {
         ArrayList<Transaction> filterbyAmount = new ArrayList<>();
@@ -491,10 +490,10 @@ public class Main {
                 }
             }
             return filterbyAmount;
+
         } else {
             return results;
+            }
         }
+
     }
-}
-
-
