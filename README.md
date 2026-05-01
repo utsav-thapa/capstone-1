@@ -1,4 +1,6 @@
+![](bankHeader.png)
 # Bank of Thapa Ledger Application
+
 
 A console-based banking ledger application built in Java.  
 This application allows users to record deposits and payments, store transactions in a CSV file, and generate reports from transaction history.
