@@ -24,14 +24,14 @@ public class Main {
     static String RESET = "\u001B[0m";
 
     // in-memory list holding all transactions loaded from file
-    static ArrayList <Transaction> transactions = loadTransactions(TRANSACTIONS_FILE_NAME);
+    static ArrayList<Transaction> transactions = loadTransactions(TRANSACTIONS_FILE_NAME);
 
     public static void main(String[] args) {
         mainMenu();
 
         //exit message
-        System.out.println(RED + BOLD + "Thank you for using Bank of Thapa."+ RESET);
-        System.out.println(BLUE +"Have a good day! :)" + RESET);
+        System.out.println(RED + BOLD + "Thank you for using Bank of Thapa." + RESET);
+        System.out.println(BLUE + "Have a good day! :)" + RESET);
     }
 
     //    main menu loop that handles what the program runs
@@ -55,7 +55,7 @@ public class Main {
                 
                 ====================================================================================================================================
                 """;
-        String mainMenu ="""
+        String mainMenu = """
                 
                     What would you like to do today?
                 
@@ -95,20 +95,20 @@ public class Main {
 
     //this converts a csv line into a transaction object
     private static Transaction parseTransaction(String line) {
-        String[] parts =line.split("\\|");
+        String[] parts = line.split("\\|");
         LocalDate date = LocalDate.parse(parts[0]);
         LocalTime time = LocalTime.parse(parts[1]);
         String description = parts[2];
         String vendor = parts[3];
         double amount = Double.parseDouble(parts[4]);
 
-        return new Transaction(date,time,description,vendor,amount);
+        return new Transaction(date, time, description, vendor, amount);
     }
 
     //this loads all transactions from the file into memory
     private static ArrayList<Transaction> loadTransactions(String transactionsFileName) {
 
-        ArrayList <Transaction> transactions = new ArrayList <Transaction>();
+        ArrayList<Transaction> transactions = new ArrayList<Transaction>();
         FileReader fileReader;
         BufferedReader bufferedReader;
 
@@ -122,7 +122,7 @@ public class Main {
             line = bufferedReader.readLine();
 
             // reading each file line by line
-            while(line != null) {
+            while (line != null) {
                 Transaction transaction = parseTransaction(line);
                 transactions.add(transaction);
                 line = bufferedReader.readLine();
@@ -206,23 +206,24 @@ public class Main {
             }
         } while (addAnother);
     }
+
     //ledger menu
     private static void ledgerMenu() {
 
         boolean running = true;
 
         String ledgerHead = """
-                    ================================================================
-                    --------X--------X-------Ledger--------X--------X--------X-----
-                    ================================================================
-                    
-                    (*) All (Display all entries)                        [A]
-                    (*) Deposits (Deposits made into the account.)       [D]
-                    (*) Payments (Payments made from the account.)       [P]
-                    (*) Reports (Run a custom search.)                   [R]
-                    (*) Home (Go back to the home page.)                 [H]
-                    ----------------------------------------------------------------
-                    Enter:""";
+                ================================================================
+                --------X--------X-------Ledger--------X--------X--------X-----
+                ================================================================
+                
+                (*) All (Display all entries)                        [A]
+                (*) Deposits (Deposits made into the account.)       [D]
+                (*) Payments (Payments made from the account.)       [P]
+                (*) Reports (Run a custom search.)                   [R]
+                (*) Home (Go back to the home page.)                 [H]
+                ----------------------------------------------------------------
+                Enter:""";
 
         //looping until user wants to return the home menu
         do {
@@ -251,12 +252,13 @@ public class Main {
             }
         } while (running);
     }
+
     //  displays all transactions
     private static void displayAllEntries() {
         justSortIt(transactions);
 
-        System.out.printf(PURPLE+"%-12s %-10s %-30s %-15s %s\n","Date","Time","Transaction","Vendor","Amount"+RESET);
-        for (Transaction i: transactions) {
+        System.out.printf(PURPLE + "%-12s %-10s %-55s %-25s %s\n", "Date", "Time", "Transaction", "Vendor", "Amount" + RESET);
+        for (Transaction i : transactions) {
             i.displayTransactions();
         }
 
@@ -275,9 +277,9 @@ public class Main {
     private static void deposits() {
         justSortIt(transactions);
 
-        System.out.printf(GREEN +"%-12s %-10s %-30s %-15s %s\n","Date","Time","Transaction","Vendor","Amount");
-        for (Transaction i: transactions) {
-            if (i.getAmount()>0) {
+        System.out.printf(GREEN + "%-12s %-10s %-55s %-25s %s\n", "Date", "Time", "Transaction", "Vendor", "Amount");
+        for (Transaction i : transactions) {
+            if (i.getAmount() > 0) {
                 i.displayTransactions();
             }
         }
@@ -288,9 +290,9 @@ public class Main {
     private static void payments() {
         justSortIt(transactions);
 
-        System.out.printf(RED +"%-12s %-10s %-30s %-15s %s\n","Date","Time","Transaction","Vendor","Amount");
-        for (Transaction i: transactions) {
-            if (i.getAmount()<0) {
+        System.out.printf(RED + "%-12s %-10s %-55s %-25s %s\n", "Date", "Time", "Transaction", "Vendor", "Amount");
+        for (Transaction i : transactions) {
+            if (i.getAmount() < 0) {
                 i.displayTransactions();
             }
         }
@@ -323,7 +325,7 @@ public class Main {
             String userInput = scanner.nextLine();
             switch (userInput) {
                 case "1":
-                    System.out.printf("%-12s %-10s %-30s %-15s %s\n","Date","Time","Transaction","Vendor","Amount");
+                    System.out.printf("%-12s %-10s %-55s %-25s %s\n", "Date", "Time", "Transaction", "Vendor", "Amount");
 
 //                    month to date filter
                     for (Transaction t : transactions) {
@@ -334,12 +336,12 @@ public class Main {
                     }
                     break;
                 case "2":
-                    System.out.printf("%-12s %-10s %-30s %-15s %s\n","Date","Time","Transaction","Vendor","Amount");
+                    System.out.printf("%-12s %-10s %-55s %-25s %s\n", "Date", "Time", "Transaction", "Vendor", "Amount");
 //                    previous month filter
 //                    checks if the current month is january and outputs last year's December if true
-                    if (LocalDate.now().getMonthValue() == 1){
+                    if (LocalDate.now().getMonthValue() == 1) {
                         for (Transaction t : transactions) {
-                            if (((t.getDate().getYear() == LocalDate.now().getYear()-1)) &&
+                            if (((t.getDate().getYear() == LocalDate.now().getYear() - 1)) &&
                                     ((t.getDate().getMonthValue() == 12))) {
                                 t.displayTransactions();
                             }
@@ -355,7 +357,7 @@ public class Main {
                     }
                     break;
                 case "3":
-                    System.out.printf("%-12s %-10s %-30s %-15s %s\n","Date","Time","Transaction","Vendor","Amount");
+                    System.out.printf("%-12s %-10s %-55s %-25s %s\n", "Date", "Time", "Transaction", "Vendor", "Amount");
 
 //                    year to date filter
                     for (Transaction t : transactions) {
@@ -365,10 +367,10 @@ public class Main {
                     }
                     break;
                 case "4":
-                    System.out.printf("%-12s %-10s %-30s %-15s %s\n","Date","Time","Transaction","Vendor","Amount");
+                    System.out.printf("%-12s %-10s %-55s %-25s %s\n", "Date", "Time", "Transaction", "Vendor", "Amount");
 
 //                    last year filter
-                    for (Transaction t: transactions) {
+                    for (Transaction t : transactions) {
                         if (t.getDate().getYear() == (LocalDate.now().getYear()) - 1) {
                             t.displayTransactions();
                         }
@@ -378,17 +380,18 @@ public class Main {
 //                    search by vendor
                     System.out.println("What is the name of the vendor?");
                     String inputVendor = scanner.nextLine();
-                    System.out.printf("%-12s %-10s %-30s %-15s %s\n","Date","Time","Transaction","Vendor","Amount");
-                    for (Transaction t: transactions) {
+                    System.out.printf("%-12s %-10s %-55s %-25s %s\n", "Date", "Time", "Transaction", "Vendor", "Amount");
+                    for (Transaction t : transactions) {
                         if (t.getVendor().equalsIgnoreCase(inputVendor)) {
                             t.displayTransactions();
                         }
                     }
                     break;
                 //TODO: make the custom bonus search
-//                    case "6":
-//                    customSearch();
-//                    break;
+
+                case "6":
+                    customSearch();
+                    break;
 
                 case "0":
                     running = false;
@@ -400,15 +403,98 @@ public class Main {
         } while (running);
     }
 
-    // private static void customSearch() {
+    private static void customSearch() {
+        justSortIt(transactions);
+
+        //creating a new array list of Transaction class
+        ArrayList<Transaction> results;
+
+        results = filterByDate(transactions);
+        results = filterByDescription(results);
+        results = filterByVendor(results);
+        results = filterByAmount(results);
+        System.out.printf("%-12s %-10s %-55s %-25s %s\n", "Date", "Time", "Transaction", "Vendor", "Amount");
+        for (Transaction a : results) {
+            a.displayTransactions();
+        }
+    }
+
+    private static ArrayList<Transaction> filterByDate(ArrayList<Transaction> transactions) {
+        ArrayList<Transaction> filteredByDate = new ArrayList<>();
+        System.out.print("Enter Start Date (yyyy-MM-dd): ");
+        LocalDate startDate = LocalDate.parse(scanner.nextLine());
+
+        System.out.print("Enter the End Date (yyyy-MM-dd): ");
+        LocalDate endDate = LocalDate.parse(scanner.nextLine());
 
 
-    //
-//        ArrayList<Transaction> results = filterByDate(transactions);
-//        results = filterByDescription(results);
-//
-//        results = filterByAmount(results);
-//
-//
+        for (Transaction a : transactions) {
+            LocalDate transactionDate = a.getDate();
+
+            if ((transactionDate.isEqual(startDate) || transactionDate.isAfter(startDate)) && //transaction date is on or after start date
+                    ((transactionDate.isEqual(endDate)) || (transactionDate.isBefore(endDate)))) { // transaction date is on or before end date
+                filteredByDate.add(a);
+            }
+        }
+        return filteredByDate;
+
+    }
+
+
+    private static ArrayList<Transaction> filterByDescription(ArrayList<Transaction> results) {
+        ArrayList<Transaction> filterByDescription = new ArrayList<>();
+        System.out.print("Enter the description: ");
+        String descriptionName = scanner.nextLine();
+
+        if (descriptionName != null) {
+
+            for (Transaction a : results) {
+                if (a.getDescription().equalsIgnoreCase(descriptionName)) {
+                    filterByDescription.add(a);
+                }
+            }
+            return filterByDescription;
+        }else {
+            return results;
+        }
+    }
+
+    private static ArrayList<Transaction> filterByVendor(ArrayList<Transaction> results) {
+        ArrayList<Transaction> filterByVendor = new ArrayList<>();
+        System.out.print("Enter the vendor name: ");
+        String vendorName = scanner.nextLine();
+
+        if (vendorName != null) {
+            for (Transaction a : results) {
+                if (a.getVendor().equalsIgnoreCase(vendorName)) {
+                    filterByVendor.add(a);
+                }
+            }
+            return filterByVendor;
+        } else {
+            return results;
+        }
+    }
+
+
+    private static ArrayList<Transaction> filterByAmount(ArrayList<Transaction> results) {
+        ArrayList<Transaction> filterbyAmount = new ArrayList<>();
+        System.out.print("Enter the amount: ");
+        String cost = scanner.nextLine();
+
+        if (cost != null) {
+            double amount = Double.parseDouble(cost);
+
+            for (Transaction a : results) {
+                if (a.getAmount() == amount) {
+                    filterbyAmount.add(a);
+                }
+            }
+            return filterbyAmount;
+        } else {
+            return results;
+        }
+    }
 }
+
 
