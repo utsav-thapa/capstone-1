@@ -15,7 +15,7 @@ Users can:
 - **View Ledger**
 - **Exit Application**
 
-![](main menu.png)
+![](mainMenu.png)
 ---
 
 ## Ledger Features 💾
@@ -28,7 +28,7 @@ Inside the ledger, users can:
 - Run reports
 - Return to home screen
 
-![](ledger menu.png)
+![](ledgerMenu.png)
 
 Transactions are automatically sorted twice by:
 
@@ -49,7 +49,7 @@ Users can generate the following reports:
 4. Previous Year
 5. Search by Vendor
 
-![](reports menu.png)
+![](reportsMenu.png)
 
 ---
 
