@@ -388,6 +388,7 @@ public class Main {
                     }
                     break;
                 case "6":
+                    //bonus part of the project
                     customSearch();
                     break;
 

@@ -7,7 +7,7 @@ This application allows users to record deposits and payments, store transaction
 
 ## Features
 
-### Main Menu
+### Main Menu 🧭
 Users can:
 
 - **Add Deposit**
@@ -17,7 +17,7 @@ Users can:
 
 ---
 
-## Ledger Features
+## Ledger Features 💾
 
 Inside the ledger, users can:
 
@@ -27,14 +27,16 @@ Inside the ledger, users can:
 - Run reports
 - Return to home screen
 
-Transactions are automatically sorted by:
+Transactions are automatically sorted twice by:
 
 - Most recent **date**
 - Most recent **time**
 
+In order to get the latest transactions first.
+
 ---
 
-## Reports Menu
+## Reports Menu 📈
 
 Users can generate the following reports:
 
@@ -46,7 +48,7 @@ Users can generate the following reports:
 
 ---
 
-## Transaction Data
+## Transaction Data 📊
 
 Transactions are stored in:
 
@@ -69,7 +71,7 @@ Example:
 
 ---
 
-## Technologies Used
+## Technologies Used 🛠
 
 - Java 17
 - IntelliJ IDEA Community Edition
@@ -85,7 +87,7 @@ Example:
 
 ---
 
-## Project Structure
+## Project Structure 🧱
 
 ```text
 src
@@ -99,7 +101,7 @@ src
 
 ---
 
-## How to Run
+## How to Run ▶️
 
 1. Clone repository:
 
@@ -121,7 +123,7 @@ Or in IntelliJ use:
 
 ---
 
-## Future Improvements
+## Future Improvements 
 
 Planned improvements:
 
