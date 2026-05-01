@@ -15,6 +15,7 @@ Users can:
 - **View Ledger**
 - **Exit Application**
 
+![](C:\Users\Utsav Thapa\Desktop\Pluralsight\Capstones\capstone-1 screenshots\main menu.png)
 ---
 
 ## Ledger Features 💾
@@ -26,6 +27,8 @@ Inside the ledger, users can:
 - View only **payments**
 - Run reports
 - Return to home screen
+
+![](C:\Users\Utsav Thapa\Desktop\Pluralsight\Capstones\capstone-1 screenshots\ledger menu.png)
 
 Transactions are automatically sorted twice by:
 
@@ -45,6 +48,8 @@ Users can generate the following reports:
 3. Year to Date
 4. Previous Year
 5. Search by Vendor
+
+![](C:\Users\Utsav Thapa\Desktop\Pluralsight\Capstones\capstone-1 screenshots\reports menu.png)
 
 ---
 
