@@ -104,14 +104,14 @@ src
 1. Clone repository:
 
 ```
-git clone <https://github.com/utsav-thapa/capstone-1>
+git clone https://github.com/utsav-thapa/capstone-1
 ```
 
 2. Open project in IntelliJ
 
 3. Run:
 
-```java
+```
 Main.java
 ```
 
